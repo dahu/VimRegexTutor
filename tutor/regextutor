@@ -265,12 +265,12 @@
 
 --->  an apple a day keeps the aardvarks away
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 3.2: Special Characters:  \+~
-
   This works by searching for the beginning of a word  \<  , then the letter
   "a", then any number of repetitions of alphanumeric characters  \w*  , then
   the end of a word  \> .
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.2: Special Characters:  \+~
 
   =========================================================================
   *7* : Find  repeated strings of digits
@@ -447,8 +447,8 @@ Fools to the left of me,
   =========================================================================
 
   This expression will find phone numbers in several formats, like "(800)
-  325-3535" or "650 555 1212". The "\(?" searches for zero or one left
-  parentheses, "[) ]" searches for a right parenthesis or a space. The "\s?"
+  325-3535" or "650 555 1212". The  \(?  searches for zero or one left
+  parentheses,  [) ]  searches for a right parenthesis or a space. The  \s?
   searches for zero or one whitespace characters. Unfortunately, it will also
   find cases like "650) 555-1212" in which the parenthesis is not balanced.
   Below, you'll see how to use alternatives to eliminate this problem. Another
@@ -572,7 +572,7 @@ Fools to the left of me,
   =========================================================================
   *19* : Find  IP addresses (more accurately)
 
-     /\v((2[0-4]\d\|25[0-5]\|[01]?\d\d?)\.){3}(2[0-4]\d\|25[0-5]\|[01]?\d\d?)
+     /\v((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)
 
      192.168.1.1
      127.0.0.1
@@ -656,7 +656,7 @@ Fools to the left of me,
      Alluringly
 
      NOTE: Vim provides two other very powerful regex operators:  |/\zs|  and
-           |/\ze| which can be used in many similar situations as the
+           |/\ze|  which can be used in many similar situations as the
            lookaround operators. The pattern above can also be expressed as:
 
      /\ze\w\+ing\>
@@ -736,7 +736,7 @@ Fools to the left of me,
   Vim:  \(exp\)\@!
   PCRE: (?!exp)
 
-  Earlier, I showed how to search for a character that is not a specific
+  Earlier, we saw how to search for a character that is not a specific
   character or the member of a character class. What if we simply want to
   verify that a character is not present, but don't want to match anything?
   For example, what if we are searching for words in which the letter "q" is
@@ -919,7 +919,7 @@ Fools to the left of me,
 
     Mastering Regular Expressions, by Jeffrey Friedl.
 
-  This tutorial is a rework by Barry Arthur of the original  .Net version by
+  This tutorial is a rework by Barry Arthur of the original .Net version by
   Jim Hollenhorst at:
 
     http://www.codeproject.com/KB/dotnet/regextutorial.aspx
