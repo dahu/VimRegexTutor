@@ -149,7 +149,7 @@
 
   3. Confirm that everything between "elvis" and "alive" is highlighted
 
---->  a) Rare are the sightings of elvis, more so those of him being alive.
+--->  Rare are the sightings of elvis, more so those of him being alive.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,7 +174,7 @@
 
   3. Confirm that the seven-digit phone number is highlighted
 
---->  a) 123-4567
+--->  123-4567
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Lesson 2.2: Specifying repetition more concisely~
@@ -198,7 +198,7 @@
 
   3. Confirm that the seven-digit phone number is highlighted
 
---->  a) 123-4567
+--->  123-4567
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Lesson 2.3: It's Magic~
@@ -236,18 +236,11 @@
 
   3. Confirm that the seven-digit phone number is highlighted
 
---->  a) 123-4567
-
-  Next, we'll learn how to test this expression in regexcoach.
+--->  123-4567
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 3.1: Regex Coach~
-
-  Pending  (is it *actually* called regexcoach?)
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.1: Special Characters:  *~
+  Lesson 3.1: Special Characters:  *~
 
   You should get to know a few characters with special meaning. You already
   met  \<  .  *  and  \d . To match any whitespace characters, like
@@ -270,10 +263,10 @@
 
   3. Confirm that all of the words starting with "a" are highlighted
 
---->  a) an apple a day keeps the aardvarks away
+--->  an apple a day keeps the aardvarks away
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.2: Special Characters:  \+~
+  Lesson 3.2: Special Characters:  \+~
 
   This works by searching for the beginning of a word  \<  , then the letter
   "a", then any number of repetitions of alphanumeric characters  \w*  , then
@@ -296,10 +289,10 @@
 
   3. Confirm that all of the digits and only the digits are highlighted
 
---->  a) 1234 5678 900,000 1.23 13:45
+--->  apple 1234 5678 900,000 1.23 13:45 %^@#
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.3: Six Letter Words~
+  Lesson 3.3: Six Letter Words~
 
   =========================================================================
   *8* : Find  six letter words
@@ -315,21 +308,20 @@
 
   3. Confirm that the word "attend" is highlighted
 
---->  a) Happy times and fine edits attend on thee.
+--->  Happy times and fine edits attend on thee.
 
-  Try these in regexcoach and start experimenting by inventing your own
-  expressions. See |pattern-overview|, |ordinary-atom|, and
-  |character-classes| for Vim's special regular expression characters.
+  Start experimenting by inventing your own expressions. See
+  |pattern-overview|, |ordinary-atom|, and |character-classes| for Vim's
+  special regular expression characters.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.4: In the beginning~
+  Lesson 3.4: In the beginning~
 
   The special characters  ^  and  $  are used when looking for something that
-  must start at the beginning of the text and end at the end of the text,
+  must start at the beginning of the line and end at the end of the line,
   respectively.
-  This is especially useful for validating input in which the entire text must
-  match a pattern. For example, to validate a seven-digit phone number, you
-  might use:
+  This is especially useful for matching exact text. For example, to find a
+  line containing only a seven-digit phone number, you might use:
 
   =========================================================================
   *9* : Find  a seven-digit phone number on a line by itself
@@ -343,56 +335,93 @@
   will represent a literal "^". The special character \_^  matches a newline
   at any position in the regex.
 
---
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. Type  /^\v\d{3}-\d{4}$  <ENTER>
+
+  3. Confirm that the word "attend" is highlighted
+
+--->
+My phone number is 123-4567, or
+123-4568 after hours.
+123-4567
+
+  Did you notice that even though the first two lines contained a seven-digit
+  phone number, they were not matched because they contained other characters?
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.5: Escaped characters~
+  Lesson 3.5: Escaped characters~
 
   A problem occurs if you actually want to match one of the special
   characters, like  ^  or  $  . Use the backslash to remove the special
-  meaning. Thus,  \^  ,  \.  , and  \\  , match the literal characters "^",
-  ".", and "\", respectively.
+  meaning. Thus,  \^  ,  \.  , and  \\  match the literal characters "^",
+  ".", and "\" respectively.
 
---
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. Type  /\^_\^  <ENTER>
+
+  3. Confirm that the smiley "^_^" is highlighted
+
+--->  ^_^   $_$   @_%   *_#
+
+  Can you match the other smilies?
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.6: Repetitions~
+  Lesson 3.6: Repetitions~
 
   You've seen that  \{3\}  and  *  can be used to indicate repetition of a
   single character. Later, you'll see how the same syntax can be used to
   repeat entire subexpressions. There are several other ways to specify a
   repetition, as shown in |pattern-overview|.
 
-  Some Examples:
+  NOTE: You no longer need explicit instructions on how to experiment with
+        the patterns in this tutorial. All future search lessons will assume
+        that you use the patterns provided to experiment with and learn from.
+        Test data is available inside each excercise block showing expected
+        matchable text. Where appropriate, false match and miss texts are also
+        provided to emphasise the current learning point.
 
   =========================================================================
   *10* : Find  all five and six letter words
 
      /\v<\w{5,6}>
+
+     I am a Bear of Very Little Brain, and long words Bother Me.
   =========================================================================
 
   =========================================================================
   *11* : Find  ten digit phone numbers
 
-     /\v\<\d{3}\s\d{3}-\d{4}
+     /\v<\d{3}\s\d{3}-\d{4}
+
+     For a good edit, call 846 968-7615
   =========================================================================
 
   =========================================================================
   *12* : Find  Social Security Number
 
      /\v\d{3}-\d{2}-\d{4}
+
+     111-21-1211
   =========================================================================
 
   =========================================================================
   *13* : Find  The first word in the line
 
-     /^\w*
+     /^\w\+
+
+Fools to the left of me,
+  jokers to the right,
+  here I am stuck in the middle with Vim.
   =========================================================================
 
---
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.8: Character Classes~
+  Lesson 3.7: Character Classes~
 
   It is simple to find alphanumerics, digits, and whitespace, but what if we
   want to find anything from some other set of characters? This is easily done
@@ -409,6 +438,12 @@
   *14* : Find  A ten digit phone number
 
      /\v\(?\d{3}[) ]\s?\d{3}[- ]\d{4}
+
+     (800) 325-3535
+     650 555 1212
+     650) 555-1212     (NOTE: Example of a false positive)
+     Just dial (800)
+     325-3535 now!     (NOTE: Example of a false negative)
   =========================================================================
 
   This expression will find phone numbers in several formats, like "(800)
@@ -416,22 +451,14 @@
   parentheses, "[) ]" searches for a right parenthesis or a space. The "\s?"
   searches for zero or one whitespace characters. Unfortunately, it will also
   find cases like "650) 555-1212" in which the parenthesis is not balanced.
-  Below, you'll see how to use alternatives to eliminate this problem.
-
-  Your Turn~
-
-  1. Go to the line below marked --->
-
-  2. type  /\v\(?\d{3}[) ]\s?\d{3}[- ]\d{4}      <ENTER>
-
-  3. Confirm that all of the phone numbers are highlighted
-
---->  a) (800) 325-3535
---->  b) 650 555 1212
---->  c) 650) 555-1212     (NOTE: Example of a false positive)
+  Below, you'll see how to use alternatives to eliminate this problem. Another
+  problem you might have noticed is that, by default in Vim, searches do not
+  span across multiple lines. This is evident in the first phone number above:
+  (800) 325-3535, which matches on this line, but not above because it's
+  split over two lines. Solutions to this problem will also be shown below.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.9: Negation~
+  Lesson 3.8: Negation~
 
   Sometimes we need to search for a character that is NOT a member of an
   easily defined class of characters. The following table shows how this can
@@ -451,18 +478,18 @@
   *15* : Find  All strings that do not contain whitespace characters
 
      /\S\+
+
+     Blessed are those who in the name of Vim edit righteously.
   =========================================================================
 
-  Later, we'll see how to use "lookahead" and "lookbehind" to search for the
-  absence of more complex patterns.
-
---
+  Later, we'll see how to use "lookahead" (|/\@=| , |/\@!|) and "lookbehind"
+  (|/\@<=| , |/\@<!|) to search for the absence of more complex patterns.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.10: Alternatives~
+  Lesson 3.9: Alternatives~
 
   To select between several alternatives, allowing a match if either one is
-  satisfied, use the pipe "|" symbol to separate the alternatives. For
+  satisfied, use the pipe  |  symbol to separate the alternatives. For
   example, Zip Codes come in two flavors, one with 5 digits, the other with 9
   digits and a hyphen. We can find either with this expression:
 
@@ -470,354 +497,418 @@
   *16* : Find  Nine and five digit Zip Codes
 
      /\v<\d{5}-\d{4}>|<\d{5}>
+
+     12345-1234
+     12345
+     123-456           (NOTE: non-zip codes don't match)
   =========================================================================
 
---
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Lesson 4.11: Escaped characters~
+  Lesson 3.10: Order of Alternatives is Important~
 
   When using alternatives, the order is important since the matching algorithm
   will attempt to match the leftmost alternative first. If the order is
   reversed in this example, the expression will only find the 5 digit Zip
-  Codes and fail to find the 9 digit ones. We can use alternatives to improve
-  the expression for ten digit phone numbers, allowing the area code to appear
-  either delimited by whitespace or parenthesis:
+  Codes and fail to find the 9 digit ones.
+
+  =========================================================================
+  Try it: /\v<\d{5}>|<\d{5}-\d{4}>
+          12345        (NOTE: This still matches... 
+          12345-1234          ...but this does not)
+  =========================================================================
+  
+  We can use alternatives to improve the expression for ten digit phone
+  numbers, allowing the area code to appear either delimited by whitespace or
+  parenthesis:
 
   =========================================================================
   *17* : Find  Ten digit phone numbers, a better way
 
      /\v(\(\d{3}\)|\d{3})\s?\d{3}[- ]\d{4}
+
+     (800) 325-3535
+     650 555 1212
+     650) 555-1212     (NOTE: Badly formatted numbers no longer match)
+     Just dial (800)
+     325-3535 now!     (NOTE: Numbers split over a line still fail to match)
   =========================================================================
 
---
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 4.1: Introducing Grouping~
+
+  Parentheses may be used to delimit a subexpression to allow repetition or
+  other special treatment. For example:
+
+  =========================================================================
+  *18* : Find  A simple IP address
+
+     /\v(\d{1,3}\.){3}\d{1,3}
+
+     192.168.1.1
+     127.0.0.1
+     3.142             (NOTE: non-IP addresses are not matched)
+     1.2.3
+     999.999.999.999   (NOTE: Invalid IP addresses are falsely matched)
+  =========================================================================
+
+  The first part of the expression searches for a one to three digit number
+  followed by a literal period  .  . This is enclosed in parentheses and
+  repeated three times using the  {3}  quantifier, followed by the same
+  expression without the trailing period.
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Grouping
-
-Parentheses may be used to delimit a subexpression to allow repetition or other special treatment. For example:
-
-18. (\d{1,3}\.){3}\d{1,3} A simple IP address finder
-
-The first part of the expression searches for a one to three digit number followed by a literal period "\.". This is enclosed in parentheses and repeated three times using the "{3}" quantifier, followed by the same expression without the trailing period.
-
-Unfortunately, this example allows IP addresses with arbitrary one, two, or three digit numbers separated by periods even though a valid IP address cannot have numbers larger than 255. It would be nice to arithmetically compare a captured number N to enforce N<256, but this is not possible with regular expressions alone. The next example tests various alternatives based on the starting digits to guarantee the limited range of numbers by pattern matching. This shows that an expression can become cumbersome even when looking for a pattern that is simple to describe.
-
-19. ((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?) IP finder
-
-Expresso Analyzer View
-
-
-
-Figure 2. Expresso's analyzer view showing example 17
-
-Expresso has a feature that diagrams expressions in a Tree structure, explaining what each piece means. When debugging an expression, this can help zoom in on the part that is causing trouble. Try this by selecting example (17) and then using the Analyze button. Select nodes in the tree and expand them to explore the structure of this regular expression as shown in the figure. After highlighting a node, you can also use the Partial Match or Exclude Match buttons to run a match using just the highlighted portion of the regular expression or using the regular expression with the highlighted portion excluded.
-
-When subexpressions are grouped with parentheses, the text that matches the subexpression is available for further processing in a computer program or within the regular expression itself. By default, groups are numbered sequentially as encountered in reading from left to right, starting with 1. This automatic numbering can be seen in Expresso's skeleton view or in the results shown after a successful match.
-
-A "backreference" is used to search for a recurrence of previously matched text that has been captured by a group. For example, "\1" means, "match the text that was captured by group 1". Here is an example:
-
-20. \b(\w+)\b\s*\1\b Find repeated words
-
-This works by capturing a string of at least one alphanumeric character within group 1 "(\w+)", but only if it begins and ends a word. It then looks for any amount of whitespace "\s*" followed by a repetition of the captured text "\1" ending at the end of a word.
-
-It is possible to override the automatic numbering of groups by specifying an explicit name or number. In the above example, instead of writing the group as "(\w+)", we can write it as "(?<Word>\w+)" to name this capture group "Word". A backreference to this group is written "\k<Word>". Try this example:
-
-21. \b(?<Word>\w+)\b\s*\k<Word>\b Capture repeated word in a named group
-
-Test this in Expresso and expand the match results to see the contents of the named group.
-
-Using parentheses, there are many special purpose syntax elements available. Some of the most common are summarized in this table:
-
-
-Captures
-
-(exp)
-
-Match exp and capture it in an automatically numbered group
-
-(?<name>exp)
-
-Match exp and capture it in a group named name
-
-(?:exp)
-
-Match exp, but do not capture it
-
-Lookarounds
-
-(?=exp)
-
-Match any position preceding a suffix exp
-
-(?<=exp)
-
-Match any position following a prefix exp
-
-(?!exp)
-
-Match any position after which the suffix exp is not found
-
-(?<!exp)
-
-Match any position before which the prefix exp is not found
-
-Comment
-
-(?#comment)
-
-Comment
-
-
-Table 4. Commonly used Group Constructs
-
-We've already talked about the first two. The third "(?:exp)" does not alter the matching behavior, it just doesn't capture it in a named or numbered group like the first two.
-
-Positive Lookaround
-
-The next four are so-called lookahead or lookbehind assertions. They look for things that go before or after the current match without including them in the match. It is important to understand that these expressions match a position like "^" or "\b" and never match any text. For this reason, they are known as "zero-width assertions". They are best illustrated by example:
-
-"(?=exp)" is the "zero-width positive lookahead assertion". It matches a position in the text that precedes a given suffix, but doesn't include the suffix in the match:
-
-22. \b\w+(?=ing\b) The beginning of words ending with "ing"
-
-"(?<=exp)" is the "zero-width positive lookbehind assertion". It matches the position following a prefix, but doesn't include the prefix in the match:
-
-23. (?<=\bre)\w+\b The end of words starting with "re"
-
-Here is an example that could be used repeatedly to insert commas into numbers in groups of three digits:
-
-24. (?<=\d)\d{3}\b Three digits at the end of a word, preceded by a digit
-
-Here is an example that looks for both a prefix and a suffix:
-
-25. (?<=\s)\w+(?=\s) Alphanumeric strings bounded by whitespace
-
-Negative Lookaround
-
-Earlier, I showed how to search for a character that is not a specific character or the member of a character class. What if we simply want to verify that a character is not present, but don't want to match anything? For example, what if we are searching for words in which the letter "q" is not followed by the letter "u"? We could try:
-
-26. \b\w*q[^u]\w*\b Words with "q" followed by NOT "u"
-
-Run the example and you will see that it fails when "q" is the last letter of a word, as in "Iraq". This is because "[^q]" always matches a character. If "q" is the last character of the word, it will match the whitespace character that follows, so in the example the expression ends up matching two whole words. Negative lookaround solves this problem because it matches a position and does not consume any text. As with positive lookaround, it can also be used to match the position of an arbitrarily complex subexpression, rather than just a single character. We can now do a better job:
-
-27. \b\w*q(?!u)\w*\b Search for words with "q" not followed by "u"
-
-We used the "zero-width negative lookahead assertion", "(?!exp)", which succeeds only if the suffix "exp" is not present. Here is another example:
-
-28. \d{3}(?!\d) Three digits not followed by another digit
-
-Similarly, we can use "(?<!exp)", the "zero-width negative lookbehind assertion", to search for a position in the text at which the prefix "exp" is not present:
-
-29. (?<![a-z ])\w{7} Strings of 7 alphanumerics not preceded by a letter or space
-
-Here is one more example using lookaround:
-
-30. (?<=<(\w+)>).*(?=<\/\1>) Text between HTML tags
-
-This searches for an HTML tag using lookbehind and the corresponding closing tag using lookahead, thus capturing the intervening text but excluding both tags.
-
-Comments please
-
-Another use of parentheses is to include comments using the "(?#comment)" syntax. A better method is to set the "Ignore Pattern Whitespace" option, which allows whitespace to be inserted in the expression and then ignored when the expression is used. With this option set, anything following a number sign "#" at the end of each line of text is ignored. For example, we can format the preceding example like this:
-
-31. Text between HTML tags, with comments
-
-(?<= # Search for a prefix, but exclude it
-<(\w+)> # Match a tag of alphanumerics within angle brackets
-) # End the prefix
-
-.* # Match any text
-
-(?= # Search for a suffix, but exclude it
-<\/\1> # Match the previously captured tag preceded by "/"
-) # End the suffix
-
-Greedy and Lazy
-
-When a regular expression has a quantifier that can accept a range of repetitions (like ".*"), the normal behavior is to match as many characters as possible. Consider the following regular expression:
-
-32. a.*b The longest string starting with a and ending with b
-
-If this is used to search the string "aabab", it will match the entire string "aabab". This is called "greedy" matching. Sometimes, we prefer "lazy" matching in which a match using the minimum number of repetitions is found. All the quantifiers in Table 2 can be turned into "lazy" quantifiers by adding a question mark "?". Thus "*?" means "match any number of repetitions, but use the smallest number of repetitions that still leads to a successful match". Now let's try the lazy version of example (32):
-
-33. a.*?b The shortest string starting with a and ending with b
-
-If we apply this to the same string "aabab" it will first match "aab" and then "ab".
-
-
-*?
-
-Repeat any number of times, but as few as possible
-
-+?
-
-Repeat one or more times, but as few as possible
-
-??
-
-Repeat zero or one time, but as few as possible
-
-{n,m}?
-
-Repeat at least n, but no more than m times, but as few as possible
-
-{n,}?
-
-Repeat at least n times, but as few as possible
-
-
-Table 5. Lazy quantifiers
-
-What did we leave out?
-
-I've described a rich set of elements with which to begin building regular expressions; but I left out a few things that are summarized in the following table. Many of these are illustrated with additional examples in the project file. The example number is shown in the left-hand column of this table.
-
-
-#
-
-Syntax
-
-Description
-
-\a
-
-Bell character
-
-\b
-
-Normally a word boundary, but within a character class it means backspace
-
-\t
-
-Tab
-
-34
-
-\r
-
-Carriage return
-
-\v
-
-Vertical tab
-
-\f
-
-Form feed
-
-35
-
-\n
-
-New line
-
-\e
-
-Escape
-
-36
-
-\nnn
-
-Character whose ASCII octal code is nnn
-
-37
-
-\xnn
-
-Character whose hexadecimal code is nn
-
-38
-
-\unnnn
-
-Character whose Unicode is nnnn
-
-39
-
-\cN
-
-Control N character, for example carriage return (Ctrl-M) is \cM
-
-40
-
-\A
-
-Beginning of a string (like ^ but does not depend on the multiline option)
-
-41
-
-\Z
-
-End of string or before \n at end of string (ignores multiline)
-
-\z
-
-End of string (ignores multiline)
-
-42
-
-\G
-
-Beginning of the current search
-
-43
-
-\p{name}
-
-Any character from the Unicode class named name, for example \p{IsGreek}
-
-(?>exp)
-
-Greedy subexpression, also known as a non-backtracking subexpression. This is matched only once and then does not participate in backtracking.
-
-44
-
-(?<x>-<y>exp) or (?-<y>exp)
-
-Balancing group. This is complicated but powerful. It allows named capture groups to be manipulated on a push down/pop up stack and can be used, for example, to search for matching parentheses, which is otherwise not possible with regular expressions. See the example in the project file.
-
-45
-
-(?im-nsx:exp)
-
-Change the regular expression options for the subexpression exp
-
-46
-
-(?im-nsx)
-
-Change the regular expression options for the rest of the enclosing group
-
-(?(exp)yes|no)
-
-The subexpression exp is treated as a zero-width positive lookahead. If it matches at this point, the subexpression yes becomes the next match, otherwise no is used.
-
-(?(exp)yes)
-
-Same as above but with an empty no expression
-
-(?(name)yes|no)
-
-This is the same syntax as the preceding case. If name is a valid group name, the yes expression is matched if the named group had a successful match, otherwise the no expression is matched.
-
-47
-
-(?(name)yes)
-
-Same as above but with an empty no expression
-
-
-Table 6. Everything we left out. The left-hand column shows the number of an example in the project file that illustrates this construct.
-
+  Lesson 4.2: Groups within Groups~
+
+  Unfortunately, this example allows IP addresses with arbitrary one, two, or
+  three digit numbers separated by periods even though a valid IP address
+  cannot have numbers larger than 255. It would be nice to arithmetically
+  compare a captured number N to enforce N<256, but this is not possible with
+  regular expressions alone. The next example tests various alternatives based
+  on the starting digits to guarantee the limited range of numbers by pattern
+  matching. This shows that an expression can become cumbersome even when
+  looking for a pattern that is simple to describe.
+
+  =========================================================================
+  *19* : Find  IP addresses (more accurately)
+
+     /\v((2[0-4]\d\|25[0-5]\|[01]?\d\d?)\.){3}(2[0-4]\d\|25[0-5]\|[01]?\d\d?)
+
+     192.168.1.1
+     127.0.0.1
+     3.142             (NOTE: non-IP addresses are not matched)
+     1.2.3
+     999.999.999.999   (NOTE: Invalid IP addresses are not matched)
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 4.3: Backreferences~
+
+  When subexpressions are grouped with parentheses, the text that matches the
+  subexpression is available further along in the regular expression itself.
+  Groups are numbered sequentially as encountered in reading from left to
+  right, starting with 1.
+
+  A "backreference" is used to search for a recurrence of previously matched
+  text that has been captured by a group. For example,  \1  means, "match the
+  text that was captured by group 1". Here is an example:
+
+  =========================================================================
+  *20* : Find  repeated words
+
+     /\v<(\w+)>\s*\1>
+
+     It wasn't that that was impossible.
+  =========================================================================
+
+  This works by capturing a string of at least one alphanumeric character
+  within group 1  (\w+)  , but only if it begins and ends a word. It then
+  looks for any amount of whitespace  \s*  followed by a repetition of the
+  captured text  \1  ending at the end of a word.
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.1: Captures~
 
+  In the followng examples, the Vim regex snippet is given first followed by
+  the equivalent Perl Compatible Regular Expression (PCRE) for those familiar
+  with that style of regular expressions. If you're not familiar with PCRE,
+  don't worry as you will not require a knowledge of it to complete this
+  tutorial or use Vim.
+
+  1. Match exp and capture it in an automatically numbered group:
+
+  Vim:  \(exp\)
+  PCRE: (exp)
+
+  2. Match exp, but do not capture it:
+
+  Vim:  \%(exp\)
+  PCRE: (?:exp)
+
+  The  \%(exp\)  form does not alter the matching behavior, it just doesn't
+  capture it in a group like the  \(exp\)  form.
+
+  The next four are so-called lookahead or lookbehind assertions. They look for
+  things that go before or after the current match without including them in the
+  match. It is important to understand that these expressions match a position
+  like  ^  or  \<  and never match any text. For this reason, they are known as
+  "zero-width assertions".
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.2: Positive lookahead~
+
+  Matches with zero width if \(exp\) matches at the current position
+
+  Vim:  \(exp\)\@=
+  PCRE: (?=exp)
+
+  \(exp\)\@=  is the "zero-width positive lookahead assertion". It matches a
+  position in the text that precedes a given suffix expression, but doesn't
+  include the suffix in the match:
+
+  =========================================================================
+  *22* : Find  the beginning of words ending with "ing"
+
+     /\v<\w+(ing>)@=
+
+     Beguiling
+     Alluringly
+
+     NOTE: Vim provides two other very powerful regex operators:  |/\zs|  and
+           |/\ze| which can be used in many similar situations as the
+           lookaround operators. The pattern above can also be expressed as:
+
+     /\ze\w\+ing\>
+
+     Pleasing
+     Obligingly
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.3: Positive lookbehind~
+
+  Matches with zero width if \(exp\) matches just before what follows:
+
+  Vim:  \(exp\)\@<=
+  PCRE: (?<=exp)
+
+  \(exp\)\@<=  is the "zero-width positive lookbehind assertion". It matches
+  the position following a prefix, but doesn't include the prefix in the
+  match:
+
+  =========================================================================
+  *23* : Find  The end of words starting with "re"
+
+     /\(\<re\)\@<=\w\+\>
+
+    OR (using the |/\zs| atom:)
+
+    /\<re\zs\w\+\>
+
+     Remember, regular repetition results in ready reflexes.
+  =========================================================================
+
+  Here is an example that could be used repeatedly to insert commas into
+  numbers in groups of three digits:
+
+  =========================================================================
+  *24* : Find  Three digits at the end of a word, preceded by a digit
+
+     /\d\@<=\d\{3\}\>
+
+     OR (with the |\v| atom for better readability:)
+
+     /\v\d@<=\d{3}>
+
+     123456789
+     123456,789
+     123,456,789       (NOTE: This number correctly doesn't match)
+  =========================================================================
+
+  Here is an example that looks for both a prefix and a suffix:
+
+  =========================================================================
+  *25* : Find  Alphanumeric strings bounded by whitespace
+
+     /\s\@<=\w\+\s\@=
+
+     It's right here.
+  =========================================================================
+
+  Quiz~
+
+  Use the pattern in example |24| to add commas to the following number:
+
+---> 123456789
+
+     ANSWER {{{~
+     Use the following substitution command when your cursor is on the
+     line above marked ---> :   :s/\v\d@<=\d{3}>/,&/
+     You will need to execute it three times to add all the necessary commas.
+     }}}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.4: Negative lookahead~
+
+  Matches with zero width if \(exp\) does NOT match at the current position
+
+  Vim:  \(exp\)\@!
+  PCRE: (?!exp)
+
+  Earlier, I showed how to search for a character that is not a specific
+  character or the member of a character class. What if we simply want to
+  verify that a character is not present, but don't want to match anything?
+  For example, what if we are searching for words in which the letter "q" is
+  not followed by the letter "u"? We could try:
+
+  =========================================================================
+  *26* : Find  Words with "q" followed by NOT "u"
+
+     /\<\w*q[^u]\w*\>
+
+     Iqaluit is the capital of Nunavut and Canada's coolest arctic city.
+     Iqaluit put the "q" in Compaq but not Iraq.
+     Inqorrectly spelled!
+  =========================================================================
+
+  Run the example and you will see that it fails when "q" is the last letter
+  of a word, as in "Iraq". This is because  [^u]  always matches a character.
+  If "q" is the last character of the word, it will match the whitespace
+  character that follows, so in the example the expression ends up matching
+  two whole words. Negative lookaround solves this problem because it matches
+  a position and does not consume any text. As with positive lookaround, it
+  can also be used to match the position of an arbitrarily complex
+  subexpression, rather than just a single character. We can now do a better
+  job:
+
+  =========================================================================
+  *27* : Find  words with "q" not followed by "u"
+
+     /\<\w*qu\@!\w*\>
+
+     Iqaluit is the capital of Nunavut and Canada's coolest arctic city.
+     Iqaluit put the "q" in Compaq but not Iraq.
+     Inqorrectly spelled!
+  =========================================================================
+
+  We used the "zero-width negative lookahead assertion",  \(exp\)\@!  , which
+  succeeds only if the suffix "exp" is not present. Here is another example:
+
+  =========================================================================
+  *28* : Find  Three digits not followed by another digit
+
+     /\d\{3\}\d\@!
+
+     123
+     123A
+     123 456
+     1234              (NOTE: Matches the -last- three digits, perhaps
+     123456                   surprisingly! How would you force a match
+                              of three digits only?
+                              ANSWER {{{~
+                              /\<\d\{3\}\d\@!
+                              }}}
+                       )
+  =========================================================================
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.5: Negative lookbehind~
+
+  Matches with zero width if \(exp\) matches just before what follows:
+
+  Vim:  \(exp\)\@<!
+  PCRE: (?<!exp)
+
+  Similarly, we can use  \(exp\)\@<!  , the "zero-width negative lookbehind
+  assertion", to search for a position in the text at which the prefix "exp"
+  is not present:
+
+  =========================================================================
+  *29* : Find  Strings of 7 alphanumerics not preceded by a letter or space
+
+     /[a-z ]\@<!\w\{7\}
+
+     Vimmers of Penzance: I am the very model of a modern major editor.
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.6: Mixed Lookaround~
+
+  Here is one more example using lookaround:
+
+  =========================================================================
+  *30* : Find  Text between HTML tags
+
+     /\v%(\<\1\>)@<=.*%(\<\/(\w+)\>)@=
+
+     <level>Can I play, daddy?</level>
+  =========================================================================
+
+  This searches for an HTML tag using positive lookbehind and the
+  corresponding closing tag using positive lookahead, thus capturing the
+  intervening text but excluding both tags.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 6.1: Greedy and Lazy~
+
+  When a regular expression has a quantifier that can accept a range of
+  repetitions, like  .*  , the normal behavior is to match as many characters
+  as possible. Consider the following regular expression:
+
+  =========================================================================
+  *32* : Find  The longest string starting with a and ending with b
+
+     /a.*b
+
+     aabab
+  =========================================================================
+
+  If this is used to search the string "aabab", it will match the entire
+  string "aabab". This is called "greedy" matching. Sometimes, we prefer
+  "lazy" matching in which a match using the minimum number of repetitions is
+  found. The quantifiers we've been playing with so far can all be turned into
+  "lazy" quantifiers by replacing the quantifier with a  \{-}  form. See
+  |/\{-| for the specific details. Thus  \{-}  means "match any number of
+  repetitions, but use the smallest number of repetitions that still leads to
+  a successful match". Now let's try the lazy version of example |32|:
+
+  NOTE: The  \{-}  form is equivalent to PCRE: *?
+
+  =========================================================================
+  *33* : Find  The shortest string starting with a and ending with b
+
+     /a.\{-}b
+
+     aabab
+
+     NOTE: If you press  n  after running this search, you will notice that it
+           first matched "aab" and then "ab".
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 6.2: Vim's Lazy Operators:~
+
+  NOTE: See the manual sections |/\{| and |non-greedy| for more details.
+
+  Repeat any number of times, but as few as possible:
+  Vim:  \{-}
+  PCRE: *?
+
+  Repeat one or more times, but as few as possible:
+  Vim:  \{-1,}
+  PCRE: +?
+
+  Repeat zero or one time, but as few as possible:
+  Vim:  \{-,1}
+  PCRE: ??
+
+  Repeat at least n, but no more than m times, but as few as possible:
+  Vim:  {-n,m}
+  PCRE: {n,m}?
+
+  Repeat at least n times, but as few as possible:
+  Vim:  {-n,}
+  PCRE: {n,}?
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Appendix 1: VimRegEx - a Vim Regex Visualisation Tool~
+
+  The VimRegEx plugin is a tool which attempts to graphically show you the
+  various portions of your regular expression and the parts of a sample text
+  it matches. Using a tool like this can quickly help you to craft complicated
+  regular expressions with more ease and confidence.
+
+  Install VimRegEx from:
+    * http://www.vim.org/scripts/script.php?script_id=1091     OR
+    * use the Vim Addon Manager:
+        http://www.vim.org/scripts/script.php?script_id=2905
+  
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   This concludes the Vim Regex Tutor.  It was intended to give a brief
   overview of regular expressions in the Vim editor - just enough to allow you
   to start exploring the wonderful and powerful world of regexes on your own.
@@ -838,8 +929,8 @@ Table 6. Everything we left out. The left-hand column shows the number of an exa
 
   Licencensed under the same terms as Vim itself.
 
-  Send mistakes and suggestions to barry.arthur@gmail.com
-
+  Send mistakes and suggestions to barry.arthur@gmail.com or register an Issue
+  at https://github.com/dahu/VimRegexTutor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # vim:tw=78:ts=8:ft=help:norl:noro:hlsearch:ignorecase
