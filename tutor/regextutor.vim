@@ -170,7 +170,7 @@ endif
 
 " 2. Build the name of the file:
 let s:regextutorfile = "/tutor/regextutor"
-let s:regextutorxx = $VIMRUNTIME . s:regextutorfile . s:ext
+let s:regextutorxx = find(s:regextutorfile . s:ext, &rtp)
 
 " 3. Finding the file:
 if filereadable(s:regextutorxx)
