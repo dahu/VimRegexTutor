@@ -169,14 +169,16 @@ if &enc == 'utf-8' && s:ext !~ '\.utf-8'
 endif
 
 " 2. Build the name of the file:
-let s:regextutorfile = "/tutor/regextutor"
-let s:regextutorxx = find(s:regextutorfile . s:ext, &rtp)
+let s:regextutorfile = "tutor/regextutor"
+let s:regextutorxx = findfile(s:regextutorfile . s:ext, &rtp)
 
 " 3. Finding the file:
 if filereadable(s:regextutorxx)
+  echo "wtf"
   let $REGEXTUTOR = s:regextutorxx
 else
-  let $REGEXTUTOR = $VIMRUNTIME . s:regextutorfile
+  echo "wtf2"
+  let $REGEXTUTOR = findfile(s:regextutorfile, &rtp)
   echo "The file " . s:regextutorxx . " does not exist.\n"
   echo "Copying English version: " . $REGEXTUTOR
   4sleep

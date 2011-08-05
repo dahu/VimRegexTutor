@@ -68,7 +68,7 @@ fi
 
 # Use Vim to copy the tutor, it knows the value of $VIMRUNTIME
 # The script regextutor.vim tells Vim which file to copy
-$VIM -f -u NONE -c 'ru tutor/regextutor.vim'
+$VIM -f -c 'ru tutor/regextutor.vim'
 
 # Start vim
 $VIM -f $REGEXTUTORCOPY
