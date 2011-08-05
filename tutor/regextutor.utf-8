@@ -1,0 +1,936 @@
+===============================================================================
+= W e l c o m e   t o   t h e   V I M   R e g e x   T u t o r  -  Version 0.1 =
+===============================================================================
+
+  Vim is a very powerful editor with a very powerful search and replace
+  system based on Regular Expressions. This tutor is designed to describe
+  enough of those features that you will be able to more powerfully use
+  Vim as an all-purpose editor.
+
+  The approximate time required to complete the tutor is 30 minutes,
+  depending upon how much time is spent with experimentation.
+
+  ATTENTION:~
+  The commands in the lessons will modify the text.  Make a copy of this
+  file to practise on (if you started "vimregextutor" this is already a
+  copy).
+
+  It is important to remember that this tutor is set up to teach by use.
+  That means that you need to execute the commands to learn them
+  properly.  If you only read the text, you will forget the commands!
+
+  If you haven't already completed the vimtutor, it is highly recommended
+  that you do so first before attempting this tutorial.
+
+  Occasional references to the Vim documentation are made throughout this
+  tutorial. Such entries look like this: |'ignorecase'|. To open those
+  entries, type (in normal mode - so press <ESCAPE> to leave insert mode
+  first)  :help  followed by the exact entry. In this case, you would
+  type:  :help 'ignorecase'
+
+  What the Heck is a Regular Expression Anyway?~
+
+  I'm sure you are familiar with the use of "wildcard" characters for
+  pattern matching. For example, if you want to find all the text files
+  in a directory, you search for "*.txt", knowing that the asterisk is
+  interpreted as a wildcard that can match any sequence of characters.
+  Regular expressions are just an elaborate extension of this capability.
+
+  When manipulating text, it is frequently necessary to locate strings
+  that match complex patterns. Regular expressions were invented to
+  describe such patterns. Thus, a regular expression is just a shorthand
+  code for a pattern. For example, the pattern  \w\+  is a concise way to
+  say "match any non-null strings of alphanumeric characters". Vim
+  provides a rich and powerful regular expression vocabulary with which
+  you can readily and efficiently search and replace text.
+
+  A good way to learn the arcane syntax of regular expressions is by
+  starting with examples and then experimenting with your own creations.
+  This tutorial introduces the basics of regular expressions, giving many
+  common examples. The additional Vim plugin, regexcoach, can be used to
+  try out the examples and to experiment with your own regular
+  expressions.
+
+  Let's get started!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 1.1: Searching for Elvis~
+
+  Suppose you spend all your free time scanning documents looking for evidence
+  that Elvis is still alive. You could search with the following regular
+  expression:
+
+  =========================================================================
+  *1* : Find  elvis
+
+    /elvis
+  =========================================================================
+
+  This is a perfectly valid regular expression that searches for an exact
+  sequence of characters. In Vim, you can set the |'ignorecase'| option
+  to ignore the case of characters, so this expression will match
+  "Elvis", "ELVIS", or "eLvIs". Unfortunately, it will also match the
+  last five letters of the word "pelvis".
+
+  Your Turn~
+
+  1. Make sure you have search highlighting enabled:  :set hlsearch
+
+  2. Go to the line below marked --->
+
+  3. type  /elvis  <ENTER>
+
+  4. Confirm that the letters "elvis" are highlighted
+
+--->  a) Rare are the sightings of elves, as are those of elvis himself.
+      b) The pelvis of elvis was seldom still.
+
+  NOTE: You can use  n  to move to the next match and  :nohl  to clear
+        the search highlight.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 1.2: Limiting the search to a whole word~
+
+  Did you notice how the word "pelvis" is partially matched with the
+  search  /elvis  ? We can improve the expression as follows:
+
+  =========================================================================
+  *2* : Find  elvis  as a whole word
+
+    /\<elvis\>
+  =========================================================================
+
+  Now things are getting a little more interesting. The  \<  is a special code
+  that means, "match the position at the beginning of any word". Likewise,  \>
+  means "match the position at the end of any word". This expression will only
+  match complete words spelled "elvis" with any combination of lower case or
+  capital letters (if |'ignorecase'| is enabled).
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. type  /\<elvis\>  <ENTER>
+
+  3. Confirm that only the word "elvis" (and not "pelvis") is highlighted
+
+--->  a) Rare are the sightings of elves, as are those of elvis himself.
+      b) The pelvis of elvis was seldom still.
+
+  Did you notice how the word "pelvis" is now NOT matched with this
+  enhanced regex?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 1.3: Searching for everything between two words~
+
+  Suppose you want to find all lines in which the word "elvis" is followed by
+  the word "alive." The period or dot  .  is a special code that matches any
+  character other than a newline. The asterisk  *  means repeat the previous
+  term as many times as necessary to guarantee a match. Thus,  .*  means
+  "match any number of characters other than newline". It is now a simple
+  matter to build an expression that means 'search for the word "elvis"
+  followed anywhere thereafter on the same line by the word "alive"'.
+
+  =========================================================================
+  *3* : Find  elvis  followed by anything and then followed by  alive
+
+    /\<elvis\>.*\<alive\>
+  =========================================================================
+
+  With just a few special characters we are beginning to build powerful
+  regular expressions and they are already becoming hard for we humans to
+  read.
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. type  /\<elvis\>.*\<alive\>  <ENTER>
+
+  3. Confirm that everything between "elvis" and "alive" is highlighted
+
+--->  Rare are the sightings of elvis, more so those of him being alive.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 2.1: Determining the Validity of Phone Numbers~
+
+  Suppose you're editing a file which contains seven-digit phone numbers
+  and you want to verify that the phone numbers are in the correct format,
+  "xxx-xxxx", where each "x" is a digit. The following expression will
+  search through text looking for such a string:
+
+  =========================================================================
+  *4* : Find  seven-digit phone number
+
+    /\<\d\d\d-\d\d\d\d
+  =========================================================================
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. type  /\<\d\d\d-\d\d\d\d  <ENTER>
+
+  3. Confirm that the seven-digit phone number is highlighted
+
+--->  123-4567
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 2.2: Specifying repetition more concisely~
+
+  Each  \d  means "match any single digit". The "-" has no special
+  meaning and is interpreted literally, matching a hyphen. To avoid the
+  annoying repetition, we can use a shorthand notation that means the
+  same thing:
+
+  =========================================================================
+  *5a* : Find  seven-digit phone number  (more concisely)
+
+    /\<\d\{3\}-\d\{4\}
+  =========================================================================
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. type  /\<\d\{3\}-\d\{4\}  <ENTER>
+
+  3. Confirm that the seven-digit phone number is highlighted
+
+--->  123-4567
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 2.3: It's Magic~
+
+  The  \{3\}  following the  \d  means "repeat the preceding character
+  three times". The  {  and  }  in that expression need to be escaped
+  with  \  which can quickly become annoying for large expressions. Vim
+  uses the  \m   regex pattern to enable |'magic'| mode, which helps to
+  reduce the amount of  \  escaping needed in some patterns.
+  Additionally, Vim also provides the  \v  pattern to enable "very magic"
+  mode, even further reducing the need to escape certain elements.
+  Using magic, the previous pattern becomes:
+
+  =========================================================================
+  *5b* : Find  seven-digit phone number  (using magic for better
+       readability)
+
+    /\m\<\d\{3}-\d\{4}
+  =========================================================================
+
+  OR, with very magic:
+
+  =========================================================================
+  *5c* : Find  seven-digit phone number  (using very magic for even
+       better readability)
+
+     /\v<\d{3}-\d{4}
+  =========================================================================
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. type  /\v<\d{3}-\d{4}  <ENTER>
+
+  3. Confirm that the seven-digit phone number is highlighted
+
+--->  123-4567
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.1: Special Characters:  *~
+
+  You should get to know a few characters with special meaning. You already
+  met  \<  .  *  and  \d . To match any whitespace characters, like
+  spaces, tabs, and newlines, use  \s  . Similarly,  \w  matches any
+  alphanumeric character.
+
+  Let's try a few more examples:
+
+  =========================================================================
+  *6* : Find  words that start with the letter a
+
+    /\<a\w*\>
+  =========================================================================
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. type  /\<a\w*\>  <ENTER>
+
+  3. Confirm that all of the words starting with "a" are highlighted
+
+--->  an apple a day keeps the aardvarks away
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.2: Special Characters:  \+~
+
+  This works by searching for the beginning of a word  \<  , then the letter
+  "a", then any number of repetitions of alphanumeric characters  \w*  , then
+  the end of a word  \> .
+
+  =========================================================================
+  *7* : Find  repeated strings of digits
+
+    /\d\+
+  =========================================================================
+
+  Here, the  \+  is similar to  *  , except it requires at least one
+  repetition.
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. type  /\d\+  <ENTER>
+
+  3. Confirm that all of the digits and only the digits are highlighted
+
+--->  apple 1234 5678 900,000 1.23 13:45 %^@#
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.3: Six Letter Words~
+
+  =========================================================================
+  *8* : Find  six letter words
+
+    /\v<\w{6}>
+  =========================================================================
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. Type  /\v<\w{6}>  <ENTER>
+
+  3. Confirm that the word "attend" is highlighted
+
+--->  Happy times and fine edits attend on thee.
+
+  Start experimenting by inventing your own expressions. See
+  |pattern-overview|, |ordinary-atom|, and |character-classes| for Vim's
+  special regular expression characters.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.4: In the beginning~
+
+  The special characters  ^  and  $  are used when looking for something that
+  must start at the beginning of the line and end at the end of the line,
+  respectively.
+  This is especially useful for matching exact text. For example, to find a
+  line containing only a seven-digit phone number, you might use:
+
+  =========================================================================
+  *9* : Find  a seven-digit phone number on a line by itself
+
+    /^\v\d{3}-\d{4}$
+  =========================================================================
+
+  This is the same as example [|5|], but anchored to the whole line,
+  with nothing else before or after the matched text. This start of line
+  character must be placed at the start of the regex pattern, otherwise it
+  will represent a literal "^". The special character \_^  matches a newline
+  at any position in the regex.
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. Type  /^\v\d{3}-\d{4}$  <ENTER>
+
+  3. Confirm that the word "attend" is highlighted
+
+--->
+My phone number is 123-4567, or
+123-4568 after hours.
+123-4567
+
+  Did you notice that even though the first two lines contained a seven-digit
+  phone number, they were not matched because they contained other characters?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.5: Escaped characters~
+
+  A problem occurs if you actually want to match one of the special
+  characters, like  ^  or  $  . Use the backslash to remove the special
+  meaning. Thus,  \^  ,  \.  , and  \\  match the literal characters "^",
+  ".", and "\" respectively.
+
+  Your Turn~
+
+  1. Go to the line below marked --->
+
+  2. Type  /\^_\^  <ENTER>
+
+  3. Confirm that the smiley "^_^" is highlighted
+
+--->  ^_^   $_$   @_%   *_#
+
+  Can you match the other smilies?
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.6: Repetitions~
+
+  You've seen that  \{3\}  and  *  can be used to indicate repetition of a
+  single character. Later, you'll see how the same syntax can be used to
+  repeat entire subexpressions. There are several other ways to specify a
+  repetition, as shown in |pattern-overview|.
+
+  NOTE: You no longer need explicit instructions on how to experiment with
+        the patterns in this tutorial. All future search lessons will assume
+        that you use the patterns provided to experiment with and learn from.
+        Test data is available inside each excercise block showing expected
+        matchable text. Where appropriate, false match and miss texts are also
+        provided to emphasise the current learning point.
+
+  =========================================================================
+  *10* : Find  all five and six letter words
+
+     /\v<\w{5,6}>
+
+     I am a Bear of Very Little Brain, and long words Bother Me.
+  =========================================================================
+
+  =========================================================================
+  *11* : Find  ten digit phone numbers
+
+     /\v<\d{3}\s\d{3}-\d{4}
+
+     For a good edit, call 846 968-7615
+  =========================================================================
+
+  =========================================================================
+  *12* : Find  Social Security Number
+
+     /\v\d{3}-\d{2}-\d{4}
+
+     111-21-1211
+  =========================================================================
+
+  =========================================================================
+  *13* : Find  The first word in the line
+
+     /^\w\+
+
+Fools to the left of me,
+  jokers to the right,
+  here I am stuck in the middle with Vim.
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.7: Character Classes~
+
+  It is simple to find alphanumerics, digits, and whitespace, but what if we
+  want to find anything from some other set of characters? This is easily done
+  by listing the desired characters within square brackets. Thus, "[aeiou]"
+  matches any vowel and "[.?!]" matches the punctuation at the end of a
+  sentence. In this example, notice that the "." And "?" lose their special
+  meanings within square brackets and are interpreted literally. We can also
+  specify a range of characters, so "[a-z0-9]" means, "match any lowercase
+  letter of the alphabet, or any digit".
+
+  Let's try a more complicated expression that searches for telephone numbers.
+
+  =========================================================================
+  *14* : Find  A ten digit phone number
+
+     /\v\(?\d{3}[) ]\s?\d{3}[- ]\d{4}
+
+     (800) 325-3535
+     650 555 1212
+     650) 555-1212     (NOTE: Example of a false positive)
+     Just dial (800)
+     325-3535 now!     (NOTE: Example of a false negative)
+  =========================================================================
+
+  This expression will find phone numbers in several formats, like "(800)
+  325-3535" or "650 555 1212". The "\(?" searches for zero or one left
+  parentheses, "[) ]" searches for a right parenthesis or a space. The "\s?"
+  searches for zero or one whitespace characters. Unfortunately, it will also
+  find cases like "650) 555-1212" in which the parenthesis is not balanced.
+  Below, you'll see how to use alternatives to eliminate this problem. Another
+  problem you might have noticed is that, by default in Vim, searches do not
+  span across multiple lines. This is evident in the first phone number above:
+  (800) 325-3535, which matches on this line, but not above because it's
+  split over two lines. Solutions to this problem will also be shown below.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.8: Negation~
+
+  Sometimes we need to search for a character that is NOT a member of an
+  easily defined class of characters. The following table shows how this can
+  be specified:
+
+    \W         Match any character that is NOT alphanumeric
+
+    \S         Match any character that is NOT whitespace
+
+    \D         Match any character that is NOT a digit
+
+    [^x]       Match any character that is NOT x
+
+    [^aeiou]   Match any character that is NOT one of the characters aeiou
+
+  =========================================================================
+  *15* : Find  All strings that do not contain whitespace characters
+
+     /\S\+
+
+     Blessed are those who in the name of Vim edit righteously.
+  =========================================================================
+
+  Later, we'll see how to use "lookahead" (|/\@=| , |/\@!|) and "lookbehind"
+  (|/\@<=| , |/\@<!|) to search for the absence of more complex patterns.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.9: Alternatives~
+
+  To select between several alternatives, allowing a match if either one is
+  satisfied, use the pipe  |  symbol to separate the alternatives. For
+  example, Zip Codes come in two flavors, one with 5 digits, the other with 9
+  digits and a hyphen. We can find either with this expression:
+
+  =========================================================================
+  *16* : Find  Nine and five digit Zip Codes
+
+     /\v<\d{5}-\d{4}>|<\d{5}>
+
+     12345-1234
+     12345
+     123-456           (NOTE: non-zip codes don't match)
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.10: Order of Alternatives is Important~
+
+  When using alternatives, the order is important since the matching algorithm
+  will attempt to match the leftmost alternative first. If the order is
+  reversed in this example, the expression will only find the 5 digit Zip
+  Codes and fail to find the 9 digit ones.
+
+  =========================================================================
+  Try it: /\v<\d{5}>|<\d{5}-\d{4}>
+          12345        (NOTE: This still matches... 
+          12345-1234          ...but this does not)
+  =========================================================================
+  
+  We can use alternatives to improve the expression for ten digit phone
+  numbers, allowing the area code to appear either delimited by whitespace or
+  parenthesis:
+
+  =========================================================================
+  *17* : Find  Ten digit phone numbers, a better way
+
+     /\v(\(\d{3}\)|\d{3})\s?\d{3}[- ]\d{4}
+
+     (800) 325-3535
+     650 555 1212
+     650) 555-1212     (NOTE: Badly formatted numbers no longer match)
+     Just dial (800)
+     325-3535 now!     (NOTE: Numbers split over a line still fail to match)
+  =========================================================================
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 4.1: Introducing Grouping~
+
+  Parentheses may be used to delimit a subexpression to allow repetition or
+  other special treatment. For example:
+
+  =========================================================================
+  *18* : Find  A simple IP address
+
+     /\v(\d{1,3}\.){3}\d{1,3}
+
+     192.168.1.1
+     127.0.0.1
+     3.142             (NOTE: non-IP addresses are not matched)
+     1.2.3
+     999.999.999.999   (NOTE: Invalid IP addresses are falsely matched)
+  =========================================================================
+
+  The first part of the expression searches for a one to three digit number
+  followed by a literal period  .  . This is enclosed in parentheses and
+  repeated three times using the  {3}  quantifier, followed by the same
+  expression without the trailing period.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 4.2: Groups within Groups~
+
+  Unfortunately, this example allows IP addresses with arbitrary one, two, or
+  three digit numbers separated by periods even though a valid IP address
+  cannot have numbers larger than 255. It would be nice to arithmetically
+  compare a captured number N to enforce N<256, but this is not possible with
+  regular expressions alone. The next example tests various alternatives based
+  on the starting digits to guarantee the limited range of numbers by pattern
+  matching. This shows that an expression can become cumbersome even when
+  looking for a pattern that is simple to describe.
+
+  =========================================================================
+  *19* : Find  IP addresses (more accurately)
+
+     /\v((2[0-4]\d\|25[0-5]\|[01]?\d\d?)\.){3}(2[0-4]\d\|25[0-5]\|[01]?\d\d?)
+
+     192.168.1.1
+     127.0.0.1
+     3.142             (NOTE: non-IP addresses are not matched)
+     1.2.3
+     999.999.999.999   (NOTE: Invalid IP addresses are not matched)
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 4.3: Backreferences~
+
+  When subexpressions are grouped with parentheses, the text that matches the
+  subexpression is available further along in the regular expression itself.
+  Groups are numbered sequentially as encountered in reading from left to
+  right, starting with 1.
+
+  A "backreference" is used to search for a recurrence of previously matched
+  text that has been captured by a group. For example,  \1  means, "match the
+  text that was captured by group 1". Here is an example:
+
+  =========================================================================
+  *20* : Find  repeated words
+
+     /\v<(\w+)>\s*\1>
+
+     It wasn't that that was impossible.
+  =========================================================================
+
+  This works by capturing a string of at least one alphanumeric character
+  within group 1  (\w+)  , but only if it begins and ends a word. It then
+  looks for any amount of whitespace  \s*  followed by a repetition of the
+  captured text  \1  ending at the end of a word.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.1: Captures~
+
+  In the followng examples, the Vim regex snippet is given first followed by
+  the equivalent Perl Compatible Regular Expression (PCRE) for those familiar
+  with that style of regular expressions. If you're not familiar with PCRE,
+  don't worry as you will not require a knowledge of it to complete this
+  tutorial or use Vim.
+
+  1. Match exp and capture it in an automatically numbered group:
+
+  Vim:  \(exp\)
+  PCRE: (exp)
+
+  2. Match exp, but do not capture it:
+
+  Vim:  \%(exp\)
+  PCRE: (?:exp)
+
+  The  \%(exp\)  form does not alter the matching behavior, it just doesn't
+  capture it in a group like the  \(exp\)  form.
+
+  The next four are so-called lookahead or lookbehind assertions. They look for
+  things that go before or after the current match without including them in the
+  match. It is important to understand that these expressions match a position
+  like  ^  or  \<  and never match any text. For this reason, they are known as
+  "zero-width assertions".
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.2: Positive lookahead~
+
+  Matches with zero width if \(exp\) matches at the current position
+
+  Vim:  \(exp\)\@=
+  PCRE: (?=exp)
+
+  \(exp\)\@=  is the "zero-width positive lookahead assertion". It matches a
+  position in the text that precedes a given suffix expression, but doesn't
+  include the suffix in the match:
+
+  =========================================================================
+  *22* : Find  the beginning of words ending with "ing"
+
+     /\v<\w+(ing>)@=
+
+     Beguiling
+     Alluringly
+
+     NOTE: Vim provides two other very powerful regex operators:  |/\zs|  and
+           |/\ze| which can be used in many similar situations as the
+           lookaround operators. The pattern above can also be expressed as:
+
+     /\ze\w\+ing\>
+
+     Pleasing
+     Obligingly
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.3: Positive lookbehind~
+
+  Matches with zero width if \(exp\) matches just before what follows:
+
+  Vim:  \(exp\)\@<=
+  PCRE: (?<=exp)
+
+  \(exp\)\@<=  is the "zero-width positive lookbehind assertion". It matches
+  the position following a prefix, but doesn't include the prefix in the
+  match:
+
+  =========================================================================
+  *23* : Find  The end of words starting with "re"
+
+     /\(\<re\)\@<=\w\+\>
+
+    OR (using the |/\zs| atom:)
+
+    /\<re\zs\w\+\>
+
+     Remember, regular repetition results in ready reflexes.
+  =========================================================================
+
+  Here is an example that could be used repeatedly to insert commas into
+  numbers in groups of three digits:
+
+  =========================================================================
+  *24* : Find  Three digits at the end of a word, preceded by a digit
+
+     /\d\@<=\d\{3\}\>
+
+     OR (with the |\v| atom for better readability:)
+
+     /\v\d@<=\d{3}>
+
+     123456789
+     123456,789
+     123,456,789       (NOTE: This number correctly doesn't match)
+  =========================================================================
+
+  Here is an example that looks for both a prefix and a suffix:
+
+  =========================================================================
+  *25* : Find  Alphanumeric strings bounded by whitespace
+
+     /\s\@<=\w\+\s\@=
+
+     It's right here.
+  =========================================================================
+
+  Quiz~
+
+  Use the pattern in example |24| to add commas to the following number:
+
+---> 123456789
+
+     ANSWER {{{~
+     Use the following substitution command when your cursor is on the
+     line above marked ---> :   :s/\v\d@<=\d{3}>/,&/
+     You will need to execute it three times to add all the necessary commas.
+     }}}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.4: Negative lookahead~
+
+  Matches with zero width if \(exp\) does NOT match at the current position
+
+  Vim:  \(exp\)\@!
+  PCRE: (?!exp)
+
+  Earlier, I showed how to search for a character that is not a specific
+  character or the member of a character class. What if we simply want to
+  verify that a character is not present, but don't want to match anything?
+  For example, what if we are searching for words in which the letter "q" is
+  not followed by the letter "u"? We could try:
+
+  =========================================================================
+  *26* : Find  Words with "q" followed by NOT "u"
+
+     /\<\w*q[^u]\w*\>
+
+     Iqaluit is the capital of Nunavut and Canada's coolest arctic city.
+     Iqaluit put the "q" in Compaq but not Iraq.
+     Inqorrectly spelled!
+  =========================================================================
+
+  Run the example and you will see that it fails when "q" is the last letter
+  of a word, as in "Iraq". This is because  [^u]  always matches a character.
+  If "q" is the last character of the word, it will match the whitespace
+  character that follows, so in the example the expression ends up matching
+  two whole words. Negative lookaround solves this problem because it matches
+  a position and does not consume any text. As with positive lookaround, it
+  can also be used to match the position of an arbitrarily complex
+  subexpression, rather than just a single character. We can now do a better
+  job:
+
+  =========================================================================
+  *27* : Find  words with "q" not followed by "u"
+
+     /\<\w*qu\@!\w*\>
+
+     Iqaluit is the capital of Nunavut and Canada's coolest arctic city.
+     Iqaluit put the "q" in Compaq but not Iraq.
+     Inqorrectly spelled!
+  =========================================================================
+
+  We used the "zero-width negative lookahead assertion",  \(exp\)\@!  , which
+  succeeds only if the suffix "exp" is not present. Here is another example:
+
+  =========================================================================
+  *28* : Find  Three digits not followed by another digit
+
+     /\d\{3\}\d\@!
+
+     123
+     123A
+     123 456
+     1234              (NOTE: Matches the -last- three digits, perhaps
+     123456                   surprisingly! How would you force a match
+                              of three digits only?
+                              ANSWER {{{~
+                              /\<\d\{3\}\d\@!
+                              }}}
+                       )
+  =========================================================================
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.5: Negative lookbehind~
+
+  Matches with zero width if \(exp\) matches just before what follows:
+
+  Vim:  \(exp\)\@<!
+  PCRE: (?<!exp)
+
+  Similarly, we can use  \(exp\)\@<!  , the "zero-width negative lookbehind
+  assertion", to search for a position in the text at which the prefix "exp"
+  is not present:
+
+  =========================================================================
+  *29* : Find  Strings of 7 alphanumerics not preceded by a letter or space
+
+     /[a-z ]\@<!\w\{7\}
+
+     Vimmers of Penzance: I am the very model of a modern major editor.
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 5.6: Mixed Lookaround~
+
+  Here is one more example using lookaround:
+
+  =========================================================================
+  *30* : Find  Text between HTML tags
+
+     /\v%(\<\1\>)@<=.*%(\<\/(\w+)\>)@=
+
+     <level>Can I play, daddy?</level>
+  =========================================================================
+
+  This searches for an HTML tag using positive lookbehind and the
+  corresponding closing tag using positive lookahead, thus capturing the
+  intervening text but excluding both tags.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 6.1: Greedy and Lazy~
+
+  When a regular expression has a quantifier that can accept a range of
+  repetitions, like  .*  , the normal behavior is to match as many characters
+  as possible. Consider the following regular expression:
+
+  =========================================================================
+  *32* : Find  The longest string starting with a and ending with b
+
+     /a.*b
+
+     aabab
+  =========================================================================
+
+  If this is used to search the string "aabab", it will match the entire
+  string "aabab". This is called "greedy" matching. Sometimes, we prefer
+  "lazy" matching in which a match using the minimum number of repetitions is
+  found. The quantifiers we've been playing with so far can all be turned into
+  "lazy" quantifiers by replacing the quantifier with a  \{-}  form. See
+  |/\{-| for the specific details. Thus  \{-}  means "match any number of
+  repetitions, but use the smallest number of repetitions that still leads to
+  a successful match". Now let's try the lazy version of example |32|:
+
+  NOTE: The  \{-}  form is equivalent to PCRE: *?
+
+  =========================================================================
+  *33* : Find  The shortest string starting with a and ending with b
+
+     /a.\{-}b
+
+     aabab
+
+     NOTE: If you press  n  after running this search, you will notice that it
+           first matched "aab" and then "ab".
+  =========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 6.2: Vim's Lazy Operators:~
+
+  NOTE: See the manual sections |/\{| and |non-greedy| for more details.
+
+  Repeat any number of times, but as few as possible:
+  Vim:  \{-}
+  PCRE: *?
+
+  Repeat one or more times, but as few as possible:
+  Vim:  \{-1,}
+  PCRE: +?
+
+  Repeat zero or one time, but as few as possible:
+  Vim:  \{-,1}
+  PCRE: ??
+
+  Repeat at least n, but no more than m times, but as few as possible:
+  Vim:  {-n,m}
+  PCRE: {n,m}?
+
+  Repeat at least n times, but as few as possible:
+  Vim:  {-n,}
+  PCRE: {n,}?
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Appendix 1: VimRegEx - a Vim Regex Visualisation Tool~
+
+  The VimRegEx plugin is a tool which attempts to graphically show you the
+  various portions of your regular expression and the parts of a sample text
+  it matches. Using a tool like this can quickly help you to craft complicated
+  regular expressions with more ease and confidence.
+
+  Install VimRegEx from:
+    * http://www.vim.org/scripts/script.php?script_id=1091     OR
+    * use the Vim Addon Manager:
+        http://www.vim.org/scripts/script.php?script_id=2905
+  
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  This concludes the Vim Regex Tutor.  It was intended to give a brief
+  overview of regular expressions in the Vim editor - just enough to allow you
+  to start exploring the wonderful and powerful world of regexes on your own.
+  It is far from complete as Vim has many many more regex features.  To learn
+  more about regexes in Vim, see  |'pattern.txt'|
+
+  If you want to read a book, I suggest the latest edition of:
+
+    Mastering Regular Expressions, by Jeffrey Friedl.
+
+  This tutorial is a rework by Barry Arthur of the original  .Net version by
+  Jim Hollenhorst at:
+
+    http://www.codeproject.com/KB/dotnet/regextutorial.aspx
+
+  The layout is based on the original  vimtutor  by Michael C. Pierce and
+  Robert K. Ware.
+
+  Licencensed under the same terms as Vim itself.
+
+  Send mistakes and suggestions to barry.arthur@gmail.com or register an Issue
+  at https://github.com/dahu/VimRegexTutor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# vim:tw=78:ts=8:ft=help:norl:noro:hlsearch:ignorecase
