@@ -35,12 +35,10 @@ add those improvements yourself, too. :)
 TODO
 ----
 
-* Adding some lessons on `:substitute` and integrating more `:s`
-  exercises.
-* Move the `\zs` and `\ze` introduction before "lookaround" into their
-  own lessons, with exercises. Stress the preference of `\z[se]` over
-  lookaround.
-* Add the necessary `\_s` enhancement to the ten-digit phone number
-  exercise (#14) on-or-around line 535.
+* Add some lessons on `:substitute` and integrate more `:s` exercises.
+* Move the `\zs` and `\ze` introduction before "lookaround" into their own
+  lessons, with exercises. Stress the preference of `\z[se]` over lookaround.
+* Add the necessary `\_s` enhancement to the ten-digit phone number exercise
+  (#14) on-or-around line 535.
 * Fix the badly-rendered regex on line 575 (exercise #19).
 * Add 'fold' modeline options to hide the ANSWER blocks.
