@@ -438,13 +438,34 @@ My phone number is 123-4567, or
   =========================================================================
 
   =========================================================================
-  *13* : Find  The first word in the line >
+  *13.1* : Find  The first word in the line >
 
      /^\w\+
 <
 Fools to the left of me,
   jokers to the right,
   here I am stuck in the middle with Vim.
+  =========================================================================
+  =========================================================================
+  *13.2* : Find  The first word in the line, ignoring leading whitespace >
+
+     /^\s*\w\+
+<
+Fools to the left of me,
+  jokers to the right,
+  here I am stuck in the middle with Vim.
+  =========================================================================
+  =========================================================================
+  *13.2* : Find  The first word in the line, ignoring AND skipping leading
+               whitespace >
+
+     /^\s*\zs\w\+
+<
+Fools to the left of me,
+  jokers to the right,
+  here I am stuck in the middle with Vim.
+
+  NOTE: The special operator   \zs   is discussed in Lesson 5.2
   =========================================================================
 
   Exercise~
@@ -601,7 +622,7 @@ Fools to the left of me,
 
 <    OR >
 
-     /\v(\(\d{3}\)|\d{3})\_s*\d{3}\_s*-?\_s*\d{4}
+     /\v(\(\d{3}\)|\d{3})\_s*\d{3}\_[- ]?\d{4}
 <
      (800) 325-3535
      650 555 1212
