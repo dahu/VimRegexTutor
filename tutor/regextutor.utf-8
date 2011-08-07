@@ -248,9 +248,10 @@
   Lesson 3.1: Special Characters:  *~
 
   You should get to know a few characters with special meaning. You already
-  met  \<  .  *  and  \d . To match any whitespace characters, like
-  spaces, tabs, and newlines, use  \s  . Similarly,  \w  matches any
-  alphanumeric character.
+  met  \<  .  *  and  \d . To match any whitespace characters, like spaces and
+  tabs, use  \s  . Similarly,  \w   matches any alphanumeric character, and \n
+  matches newlines. The special form   \_s   to match spaces, tabs AND
+  newlines is discussed in Lesson 3.11.
 
   Let's try a few more examples:
 
