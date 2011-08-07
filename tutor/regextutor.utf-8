@@ -1061,6 +1061,9 @@ Fools to the left of me,
   The layout is based on the original  vimtutor  by Michael C. Pierce and
   Robert K. Ware.
 
+  Thanks to the following people for prviding feedback, fixing bugs and
+  offering suggestions to improve VimRegexTutor: Ben Fritz, Israel Chauca.
+
   Licencensed under the same terms as Vim itself.
 
   Send mistakes and suggestions to barry.arthur@gmail.com or register an Issue
