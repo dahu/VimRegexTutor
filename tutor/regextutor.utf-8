@@ -848,6 +848,8 @@ Fools to the left of me,
      Use the following substitution command when your cursor is on the
      line above marked ---> :   :s/\v\d@<=\d{3}>/,&/
      You will need to execute it three times to add all the necessary commas.
+     Tip: You can use the   &   key in normal mode to re-execute the last
+     substitution.
      }}}
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
