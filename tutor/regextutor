@@ -51,6 +51,11 @@
   try out the examples and to experiment with your own regular
   expressions.
 
+  NOTE: All of the exercises in this tutorial will use plain (non-|magic|-al)
+        regular expressions. Frequently a very-magic  (using the |\v| option)
+        equivalent is shown alongside the original. The purpose of magic and
+        the \v option is explained in Lesson 2.3.
+
   Let's get started!
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,10 +66,10 @@
   expression:
 
   =========================================================================
-  *1* : Find  elvis
+  *1* : Find  elvis >
 
     /elvis
-  =========================================================================
+< =========================================================================
 
   This is a perfectly valid regular expression that searches for an exact
   sequence of characters. In Vim, you can set the |'ignorecase'| option
@@ -95,10 +100,10 @@
   search  /elvis  ? We can improve the expression as follows:
 
   =========================================================================
-  *2* : Find  elvis  as a whole word
+  *2* : Find  elvis  as a whole word >
 
     /\<elvis\>
-  =========================================================================
+< =========================================================================
 
   Now things are getting a little more interesting. The  \<  is a special code
   that means, "match the position at the beginning of any word". Likewise,  \>
@@ -132,10 +137,10 @@
   followed anywhere thereafter on the same line by the word "alive"'.
 
   =========================================================================
-  *3* : Find  elvis  followed by anything and then followed by  alive
+  *3* : Find  elvis  followed by anything and then followed by  alive >
 
     /\<elvis\>.*\<alive\>
-  =========================================================================
+< =========================================================================
 
   With just a few special characters we are beginning to build powerful
   regular expressions and they are already becoming hard for we humans to
@@ -161,10 +166,10 @@
   search through text looking for such a string:
 
   =========================================================================
-  *4* : Find  seven-digit phone number
+  *4* : Find  seven-digit phone number >
 
     /\<\d\d\d-\d\d\d\d
-  =========================================================================
+< =========================================================================
 
   Your Turn~
 
@@ -185,10 +190,10 @@
   same thing:
 
   =========================================================================
-  *5a* : Find  seven-digit phone number  (more concisely)
+  *5.1* : Find  seven-digit phone number  (more concisely) >
 
     /\<\d\{3\}-\d\{4\}
-  =========================================================================
+< =========================================================================
 
   Your Turn~
 
@@ -213,20 +218,20 @@
   Using magic, the previous pattern becomes:
 
   =========================================================================
-  *5b* : Find  seven-digit phone number  (using magic for better
-       readability)
+  *5.2* : Find  seven-digit phone number  (using magic for better
+       readability) >
 
     /\m\<\d\{3}-\d\{4}
-  =========================================================================
+< =========================================================================
 
   OR, with very magic:
 
   =========================================================================
-  *5c* : Find  seven-digit phone number  (using very magic for even
-       better readability)
+  *5.3* : Find  seven-digit phone number  (using very magic for even
+       better readability) >
 
      /\v<\d{3}-\d{4}
-  =========================================================================
+< =========================================================================
 
   Your Turn~
 
@@ -250,10 +255,10 @@
   Let's try a few more examples:
 
   =========================================================================
-  *6* : Find  words that start with the letter a
+  *6* : Find  words that start with the letter a >
 
     /\<a\w*\>
-  =========================================================================
+< =========================================================================
 
   Your Turn~
 
@@ -273,10 +278,10 @@
   Lesson 3.2: Special Characters:  \+~
 
   =========================================================================
-  *7* : Find  repeated strings of digits
+  *7* : Find  repeated strings of digits >
 
     /\d\+
-  =========================================================================
+< =========================================================================
 
   Here, the  \+  is similar to  *  , except it requires at least one
   repetition.
@@ -295,16 +300,20 @@
   Lesson 3.3: Six Letter Words~
 
   =========================================================================
-  *8* : Find  six letter words
+  *8* : Find  six letter words >
+
+    /\<\w\{6\}\>
+
+<   OR, using very-magic: >
 
     /\v<\w{6}>
-  =========================================================================
+< =========================================================================
 
   Your Turn~
 
   1. Go to the line below marked --->
 
-  2. Type  /\v<\w{6}>  <ENTER>
+  2. Type  /\<\w\{6\}\>   <ENTER>
 
   3. Confirm that the word "attend" is highlighted
 
@@ -324,10 +333,14 @@
   line containing only a seven-digit phone number, you might use:
 
   =========================================================================
-  *9* : Find  a seven-digit phone number on a line by itself
+  *9* : Find  a seven-digit phone number on a line by itself >
+
+    /^\d\{3\}-\d\{4\}$
+
+<   OR >
 
     /^\v\d{3}-\d{4}$
-  =========================================================================
+< =========================================================================
 
   This is the same as example [|5|], but anchored to the whole line,
   with nothing else before or after the matched text. This start of line
@@ -339,9 +352,9 @@
 
   1. Go to the line below marked --->
 
-  2. Type  /^\v\d{3}-\d{4}$  <ENTER>
+  2. Type  /^\d\{3\}-\d\{4\}$   <ENTER>
 
-  3. Confirm that the word "attend" is highlighted
+  3. Confirm that the line with only a ten-digit phone number is highlighted
 
 --->
 My phone number is 123-4567, or
@@ -367,9 +380,10 @@ My phone number is 123-4567, or
 
   3. Confirm that the smiley "^_^" is highlighted
 
---->  ^_^   $_$   @_%   *_#
+--->  ^_^   $_$   @_%   *_#   !_!   ()_+   <>_{}
 
-  Can you match the other smilies?
+  Can you match the other smilies? Which of those other punctuation symbols
+  need escaping and which do not?
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Lesson 3.6: Repetitions~
@@ -383,42 +397,62 @@ My phone number is 123-4567, or
         the patterns in this tutorial. All future search lessons will assume
         that you use the patterns provided to experiment with and learn from.
         Test data is available inside each excercise block showing expected
-        matchable text. Where appropriate, false match and miss texts are also
-        provided to emphasise the current learning point.
+        matchable text. Where appropriate, false matches and missed text are
+        also provided to emphasise the current learning point.
 
   =========================================================================
-  *10* : Find  all five and six letter words
+  *10* : Find  all five and six letter words >
+
+     /\<\w\{5,6\}\>
+
+<    OR >
 
      /\v<\w{5,6}>
-
+<
      I am a Bear of Very Little Brain, and long words Bother Me.
   =========================================================================
 
   =========================================================================
-  *11* : Find  ten digit phone numbers
+  *11* : Find  ten digit phone numbers >
+
+     /\<\d\{3\}\s\d\{3\}-\d\{4\}
+
+<    OR >
 
      /\v<\d{3}\s\d{3}-\d{4}
-
+<
      For a good edit, call 846 968-7615
   =========================================================================
 
   =========================================================================
-  *12* : Find  Social Security Number
+  *12* : Find  Social Security Number >
+
+     /\d\{3\}-\d\{2\}-\d\{4\}
+
+<    OR >
 
      /\v\d{3}-\d{2}-\d{4}
-
+<
      111-21-1211
   =========================================================================
 
   =========================================================================
-  *13* : Find  The first word in the line
+  *13* : Find  The first word in the line >
 
      /^\w\+
-
+<
 Fools to the left of me,
   jokers to the right,
   here I am stuck in the middle with Vim.
   =========================================================================
+
+  Exercise~
+
+  Use the   $   anchor to match the last 'line' word on this line
+
+    ANSWER {{{~
+    /line$
+    }}}
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Lesson 3.7: Character Classes~
@@ -435,10 +469,14 @@ Fools to the left of me,
   Let's try a more complicated expression that searches for telephone numbers.
 
   =========================================================================
-  *14* : Find  A ten digit phone number
+  *14* : Find  A ten digit phone number >
+
+     /(\?\d\{3\}[) ]\s\?\d\{3\}[- ]\d\{4\}
+
+<    OR >
 
      /\v\(?\d{3}[) ]\s?\d{3}[- ]\d{4}
-
+<
      (800) 325-3535
      650 555 1212
      650) 555-1212     (NOTE: Example of a false positive)
@@ -447,8 +485,8 @@ Fools to the left of me,
   =========================================================================
 
   This expression will find phone numbers in several formats, like "(800)
-  325-3535" or "650 555 1212". The  \(?  searches for zero or one left
-  parentheses,  [) ]  searches for a right parenthesis or a space. The  \s?
+  325-3535" or "650 555 1212". The  (\?  searches for zero or one left
+  parentheses,  [) ]  searches for a right parenthesis or a space. The  \s\?
   searches for zero or one whitespace characters. Unfortunately, it will also
   find cases like "650) 555-1212" in which the parenthesis is not balanced.
   Below, you'll see how to use alternatives to eliminate this problem. Another
@@ -475,10 +513,10 @@ Fools to the left of me,
     [^aeiou]   Match any character that is NOT one of the characters aeiou
 
   =========================================================================
-  *15* : Find  All strings that do not contain whitespace characters
+  *15* : Find  All strings that do not contain whitespace characters >
 
      /\S\+
-
+<
      Blessed are those who in the name of Vim edit righteously.
   =========================================================================
 
@@ -494,10 +532,14 @@ Fools to the left of me,
   digits and a hyphen. We can find either with this expression:
 
   =========================================================================
-  *16* : Find  Nine and five digit Zip Codes
+  *16* : Find  Nine and five digit Zip Codes >
+
+     /\<\d\{5\}-\d\{4\}\>\|\<\d\{5\}\>
+
+<    OR >
 
      /\v<\d{5}-\d{4}>|<\d{5}>
-
+<
      12345-1234
      12345
      123-456           (NOTE: non-zip codes don't match)
@@ -512,20 +554,26 @@ Fools to the left of me,
   Codes and fail to find the 9 digit ones.
 
   =========================================================================
-  Try it: /\v<\d{5}>|<\d{5}-\d{4}>
-          12345        (NOTE: This still matches... 
+  Try it: >
+     /\v<\d{5}>|<\d{5}-\d{4}>
+<
+          12345        (NOTE: This still matches...
           12345-1234          ...but this does not)
   =========================================================================
-  
+
   We can use alternatives to improve the expression for ten digit phone
   numbers, allowing the area code to appear either delimited by whitespace or
   parenthesis:
 
   =========================================================================
-  *17* : Find  Ten digit phone numbers, a better way
+  *17.1* : Find  Ten digit phone numbers, a better way >
+
+     /\((\d\{3\})\|\d\{3\}\)\s\?\d\{3\}[- ]\d\{4\}
+
+<    OR >
 
      /\v(\(\d{3}\)|\d{3})\s?\d{3}[- ]\d{4}
-
+<
      (800) 325-3535
      650 555 1212
      650) 555-1212     (NOTE: Badly formatted numbers no longer match)
@@ -533,6 +581,33 @@ Fools to the left of me,
      325-3535 now!     (NOTE: Numbers split over a line still fail to match)
   =========================================================================
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Lesson 3.11: Newlines are NOT Matched by Default~
+
+  That fixes the problem of accidentally matching badly formatted phone
+  numbers, but not the problem of phone numbers split over a line. Let's fix
+  that problem now. Vim limits regex matches to a single line by default. Put
+  another way, Vim -excludes- newlines in matches by default. To override
+  this, we need to use the special   |/\_|   modifiers which -include-
+  newlines in the match. As an example, use   |/\_s|   to capture whitespace
+  (like   \s   ) including newlines. Let's use   \_s   to fix our phone number
+  problem:
+
+  =========================================================================
+  *17.2* : Find  Ten digit phone numbers, an even better way (with newlines) >
+
+     /\((\d\{3\})\|\d\{3\}\)\_s*\d\{3\}\_s*-\?\_s*\d\{4\}
+
+<    OR >
+
+     /\v(\(\d{3}\)|\d{3})\_s*\d{3}\_s*-?\_s*\d{4}
+<
+     (800) 325-3535
+     650 555 1212
+     650) 555-1212     (NOTE: Badly formatted numbers still don't match)
+     Just dial (800)
+     325-3535 now!     (NOTE: Numbers split over a line now match correctly)
+  =========================================================================
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Lesson 4.1: Introducing Grouping~
@@ -541,10 +616,14 @@ Fools to the left of me,
   other special treatment. For example:
 
   =========================================================================
-  *18* : Find  A simple IP address
+  *18* : Find  A simple IP address >
+
+     /\(\d\{1,3\}\.\)\{3\}\d\{1,3\}
+
+<    OR >
 
      /\v(\d{1,3}\.){3}\d{1,3}
-
+<
      192.168.1.1
      127.0.0.1
      3.142             (NOTE: non-IP addresses are not matched)
@@ -554,7 +633,7 @@ Fools to the left of me,
 
   The first part of the expression searches for a one to three digit number
   followed by a literal period  .  . This is enclosed in parentheses and
-  repeated three times using the  {3}  quantifier, followed by the same
+  repeated three times using the  \{3\}  quantifier, followed by the same
   expression without the trailing period.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -570,10 +649,14 @@ Fools to the left of me,
   looking for a pattern that is simple to describe.
 
   =========================================================================
-  *19* : Find  IP addresses (more accurately)
+  *19* : Find  IP addresses (more accurately) >
+
+     /\(\(2[0-4]\d\|25[0-5]\|[01]\?\d\d\?\)\.\)\{3\}\(2[0-4]\d\|25[0-5]\|[01]\?\d\d\?\)
+<
+     OR >
 
      /\v((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)
-
+<
      192.168.1.1
      127.0.0.1
      3.142             (NOTE: non-IP addresses are not matched)
@@ -594,15 +677,19 @@ Fools to the left of me,
   text that was captured by group 1". Here is an example:
 
   =========================================================================
-  *20* : Find  repeated words
+  *20* : Find  repeated words >
+
+     /\<\(\w\+\)\>\s*\1\>
+
+     OR
 
      /\v<(\w+)>\s*\1>
-
+<
      It wasn't that that was impossible.
   =========================================================================
 
   This works by capturing a string of at least one alphanumeric character
-  within group 1  (\w+)  , but only if it begins and ends a word. It then
+  within group 1  \(\w\+\)  , but only if it begins and ends a word. It then
   looks for any amount of whitespace  \s*  followed by a repetition of the
   captured text  \1  ending at the end of a word.
 
@@ -615,6 +702,15 @@ Fools to the left of me,
   with that style of regular expressions. If you're not familiar with PCRE,
   don't worry as you will not require a knowledge of it to complete this
   tutorial or use Vim.
+
+  NOTE: Some of Vim's way of handling certain regex features differs from
+        PCRE. Some people complain about this and wonder why Vim didn't just
+        use the already existing PCRE way. The reason is that Vim started
+        getting some of these things at the same time Perl did, or even
+        beforehand. So, it's not that Vim decided to flout history and Go Its
+        Own Way just to be difficult.  Respect that Vim -can- do these things
+        and has been able to do so for a long time now; and suck it up and
+        learn Vim's way. :-)
 
   1. Match exp and capture it in an automatically numbered group:
 
@@ -648,19 +744,23 @@ Fools to the left of me,
   include the suffix in the match:
 
   =========================================================================
-  *22* : Find  the beginning of words ending with "ing"
+  *22* : Find  the beginning of words ending with "ing" >
+
+     /\<\w\+\(ing\>\)\@=
+
+<    OR >
 
      /\v<\w+(ing>)@=
-
+<
      Beguiling
      Alluringly
 
      NOTE: Vim provides two other very powerful regex operators:  |/\zs|  and
            |/\ze|  which can be used in many similar situations as the
-           lookaround operators. The pattern above can also be expressed as:
+           lookaround operators. The pattern above can also be expressed as: >
 
      /\ze\w\+ing\>
-
+<
      Pleasing
      Obligingly
   =========================================================================
@@ -678,14 +778,14 @@ Fools to the left of me,
   match:
 
   =========================================================================
-  *23* : Find  The end of words starting with "re"
+  *23* : Find  The end of words starting with "re" >
 
      /\(\<re\)\@<=\w\+\>
 
-    OR (using the |/\zs| atom:)
+<   OR (using the |/\zs| atom:) >
 
     /\<re\zs\w\+\>
-
+<
      Remember, regular repetition results in ready reflexes.
   =========================================================================
 
@@ -693,14 +793,14 @@ Fools to the left of me,
   numbers in groups of three digits:
 
   =========================================================================
-  *24* : Find  Three digits at the end of a word, preceded by a digit
+  *24* : Find  Three digits at the end of a word, preceded by a digit >
 
      /\d\@<=\d\{3\}\>
 
-     OR (with the |\v| atom for better readability:)
+<    OR >
 
      /\v\d@<=\d{3}>
-
+<
      123456789
      123456,789
      123,456,789       (NOTE: This number correctly doesn't match)
@@ -709,10 +809,10 @@ Fools to the left of me,
   Here is an example that looks for both a prefix and a suffix:
 
   =========================================================================
-  *25* : Find  Alphanumeric strings bounded by whitespace
+  *25* : Find  Alphanumeric strings bounded by whitespace >
 
      /\s\@<=\w\+\s\@=
-
+<
      It's right here.
   =========================================================================
 
@@ -743,17 +843,17 @@ Fools to the left of me,
   not followed by the letter "u"? We could try:
 
   =========================================================================
-  *26* : Find  Words with "q" followed by NOT "u"
+  *26* : Find  Words with "q" followed by NOT "u" >
 
      /\<\w*q[^u]\w*\>
-
+<
      Iqaluit is the capital of Nunavut and Canada's coolest arctic city.
-     Iqaluit put the "q" in Compaq but not Iraq.
+     QWERTY put the "q" in Compaq but not Iraq.
      Inqorrectly spelled!
   =========================================================================
 
   Run the example and you will see that it fails when "q" is the last letter
-  of a word, as in "Iraq". This is because  [^u]  always matches a character.
+  of a word, as in "Compaq". This is because  [^u]  always matches a character.
   If "q" is the last character of the word, it will match the whitespace
   character that follows, so in the example the expression ends up matching
   two whole words. Negative lookaround solves this problem because it matches
@@ -763,12 +863,12 @@ Fools to the left of me,
   job:
 
   =========================================================================
-  *27* : Find  words with "q" not followed by "u"
+  *27* : Find  words with "q" not followed by "u" >
 
      /\<\w*qu\@!\w*\>
-
+<
      Iqaluit is the capital of Nunavut and Canada's coolest arctic city.
-     Iqaluit put the "q" in Compaq but not Iraq.
+     QWERTY put the "q" in Compaq but not Iraq.
      Inqorrectly spelled!
   =========================================================================
 
@@ -776,19 +876,19 @@ Fools to the left of me,
   succeeds only if the suffix "exp" is not present. Here is another example:
 
   =========================================================================
-  *28* : Find  Three digits not followed by another digit
+  *28* : Find  Three digits not followed by another digit >
 
      /\d\{3\}\d\@!
-
+<
      123
      123A
      123 456
      1234              (NOTE: Matches the -last- three digits, perhaps
      123456                   surprisingly! How would you force a match
                               of three digits only?
-                              ANSWER {{{~
-                              /\<\d\{3\}\d\@!
-                              }}}
+                                ANSWER {{{~
+                                /\<\d\{3\}\d\@!
+                                }}}
                        )
   =========================================================================
 
@@ -806,11 +906,11 @@ Fools to the left of me,
   is not present:
 
   =========================================================================
-  *29* : Find  Strings of 7 alphanumerics not preceded by a letter or space
+  *29* : Find  Strings of 7 alphanumerics not preceded by a letter or space >
 
      /[a-z ]\@<!\w\{7\}
-
-     Vimmers of Penzance: I am the very model of a modern major editor.
+<
+     :Vimmers of Penzance: I am the very model of a modern major editor.
   =========================================================================
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -819,16 +919,26 @@ Fools to the left of me,
   Here is one more example using lookaround:
 
   =========================================================================
-  *30* : Find  Text between HTML tags
+  *30* : Find  Text between HTML tags >
+
+     /\%(<\1>\)\@<=.*\%(<\/\(\w\+\)>\)\@=
+
+     OR
 
      /\v%(\<\1\>)@<=.*%(\<\/(\w+)\>)@=
-
+<
      <level>Can I play, daddy?</level>
   =========================================================================
 
-  This searches for an HTML tag using positive lookbehind and the
-  corresponding closing tag using positive lookahead, thus capturing the
-  intervening text but excluding both tags.
+  This searches for the corresponding closing HTML tag using positive
+  lookbehind and the opening original tag using positive lookahead, thus
+  capturing the intervening text but excluding both tags.
+
+  NOTE: If you read that last sentence and felt there was something backwards
+        about it... you're right. The part of the pattern after  \@<=  and
+        \@<!  are checked for a match first, thus things like  \1  don't work
+        to reference  \(\)  inside the preceding atom. It does work the other
+        way around as illustrated in the pattern above.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Lesson 6.1: Greedy and Lazy~
@@ -838,10 +948,10 @@ Fools to the left of me,
   as possible. Consider the following regular expression:
 
   =========================================================================
-  *32* : Find  The longest string starting with a and ending with b
+  *32* : Find  The longest string starting with a and ending with b >
 
      /a.*b
-
+<
      aabab
   =========================================================================
 
@@ -857,10 +967,10 @@ Fools to the left of me,
   NOTE: The  \{-}  form is equivalent to PCRE: *?
 
   =========================================================================
-  *33* : Find  The shortest string starting with a and ending with b
+  *33* : Find  The shortest string starting with a and ending with b >
 
      /a.\{-}b
-
+<
      aabab
 
      NOTE: If you press  n  after running this search, you will notice that it
@@ -906,7 +1016,7 @@ Fools to the left of me,
     * http://www.vim.org/scripts/script.php?script_id=1091     OR
     * use the Vim Addon Manager:
         http://www.vim.org/scripts/script.php?script_id=2905
-  
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   This concludes the Vim Regex Tutor.  It was intended to give a brief
