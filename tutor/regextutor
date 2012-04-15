@@ -1,5 +1,5 @@
 ===============================================================================
-= W e l c o m e   t o   t h e   V I M   R e g e x   T u t o r  -  Version 0.1 =
+= W e l c o m e   t o   t h e   V I M   R e g e x   T u t o r  -  Version 0.2 =
 ===============================================================================
 
   Vim is a very powerful editor with a very powerful search and replace
@@ -1028,6 +1028,41 @@ Fools to the left of me,
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Exercise 1.1: Inserting thousands separators into numbers.~
+
+  Visually select the following 10 lines of numbers and write a regular
+  expression that inserts a thousands separator (such as ,) to make them read
+  correctly as shown in the set below.
+
+     1
+     12
+     123
+     1234
+     12345
+     123456
+     1234567
+     12345678
+     123456789
+     1234567890
+
+     -=-=-
+
+     1
+     12
+     123
+     1,234
+     12,345
+     123,456
+     1,234,567
+     12,345,678
+     123,456,789
+     1,234,567,890
+<
+
+  SOLUTION >
+     :'<,'>s/\d\@<=\(\(\d\{3}\)\+\d\@!\)\@=/,/g
+<
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Appendix 1: VimRegEx - a Vim Regex Visualisation Tool~
 
