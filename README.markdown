@@ -3,10 +3,10 @@ VimRegexTutor
 
 _A "hands on" regular expression tutorial for users of the Vim editor._
 
-**Project Page:** https://github.com/dahu/VimRegexTutor
-**Maintainer:**   Barry Arthur <barry.arthur@gmail.com>
-**Status:**       Beta, feedback welcome
-**Adapted From:** http://www.codeproject.com/Articles/9099/The-30-Minute-Regex-Tutorial
+* **Project Page:** https://github.com/dahu/VimRegexTutor
+* **Maintainer:**   Barry Arthur <barry.arthur@gmail.com>
+* **Status:**       Beta, feedback welcome
+* **Adapted From:** http://www.codeproject.com/Articles/9099/The-30-Minute-Regex-Tutorial
 
 Most new users can get through it in less than one hour. The result is that you
 can use simple regular expressions using the Vim editor.
