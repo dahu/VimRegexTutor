@@ -1105,4 +1105,4 @@ Fools to the left of me,
   at https://github.com/dahu/VimRegexTutor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# vim:tw=78:ts=8:ft=help:norl:noro:hlsearch:ignorecase
+# vim:tw=78:ts=8:ft=help:norl:noro:hlsearch:ignorecase fdm=marker
