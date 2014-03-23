@@ -3,9 +3,9 @@ VimRegexTutor
 
 _A "hands on" regular expression tutorial for users of the Vim editor._
 
-TIP: If you like VimRegexTutor and want to share the W00t!, I'm grateful for
-https://www.gittip.com/bairuidahu/[tips] or
-http://of-vim-and-vigor.blogspot.com/[beverages].
+>TIP: If you like VimRegexTutor and want to share the W00t!, I'm grateful for
+[tips](https://www.gittip.com/bairuidahu/) or
+[beverages](http://of-vim-and-vigor.blogspot.com/).
 
 * **Project Page:** https://github.com/dahu/VimRegexTutor
 * **Maintainer:**   Barry Arthur <barry.arthur@gmail.com>
