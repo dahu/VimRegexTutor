@@ -942,6 +942,10 @@ Fools to the left of me,
 
   Here is one more example using lookaround:
 
+  NOTE: For this type of backreferencing, you will need to use Vim's old
+  regex engine. Read   :help 'regexpengine'   for an explanation. To enable
+  the old regex engine, do:   :set regexpengine=1
+
   =========================================================================
   *30* : Find  Text between HTML tags >
 
