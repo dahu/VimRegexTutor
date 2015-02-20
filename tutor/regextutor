@@ -932,7 +932,15 @@ Fools to the left of me,
   =========================================================================
   *29* : Find  Strings of 7 alphanumerics not preceded by a letter or space >
 
+     /[a-z ]\@<!\w\{7\}
+
+     OR, if you are not ignoring case (:help 'ignorecase')
+
      /[a-zA-Z ]\@<!\w\{7\}
+
+     OR
+
+     /\c[a-z ]\@<!\w\{7\}
 <
      :Vimmers of Penzance: I am the very model of a modern modal editor.
   =========================================================================
