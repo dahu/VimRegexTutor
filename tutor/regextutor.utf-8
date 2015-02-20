@@ -942,6 +942,10 @@ Fools to the left of me,
 
   Here is one more example using lookaround:
 
+  NOTE: For this type of backreferencing, you will need to use Vim's old
+  regex engine. Read   :help 'regexpengine'   for an explanation. To enable
+  the old regex engine, do:   :set regexpengine=1
+
   =========================================================================
   *30* : Find  Text between HTML tags >
 
@@ -950,6 +954,10 @@ Fools to the left of me,
      OR
 
      /\v%(\<\1\>)@<=.*%(\<\/(\w+)\>)@=
+
+     OR
+
+     /<\(\w\+\).\{-}>\zs.*\ze<\/\1>
 <
      <level>Can I play, daddy?</level>
   =========================================================================
@@ -963,6 +971,16 @@ Fools to the left of me,
         \@<!  are checked for a match first, thus things like  \1  don't work
         to reference  \(\)  inside the preceding atom. It does work the other
         way around as illustrated in the pattern above.
+
+        Bram was surprised that this pattern actually works at all and
+        suggested that it is probably an indication of bugs in the backreferencing
+        regexp engine. He also kindly provided the much simpler (and more
+        efficient) regexp using the much preferred \zs and \ze atoms:
+
+            /<\(\w\+\).\{-}>\zs.*\ze<\/\1>
+
+        In practice, the \zs and \ze atoms are almost always the better
+        choice.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Lesson 6.1: Greedy and Lazy~
