@@ -483,7 +483,7 @@ Fools to the left of me,
   want to find anything from some other set of characters? This is easily done
   by listing the desired characters within square brackets. Thus, "[aeiou]"
   matches any vowel and "[.?!]" matches the punctuation at the end of a
-  sentence. In this example, notice that the "." And "?" lose their special
+  sentence. In this example, notice that the "." and "?" lose their special
   meanings within square brackets and are interpreted literally. We can also
   specify a range of characters, so "[a-z0-9]" means, "match any lowercase
   letter of the alphabet, or any digit".
@@ -842,7 +842,7 @@ Fools to the left of me,
 
   Use the pattern in example |24| to add commas to the following number:
 
----> 123456789
+---> 12345678901
 
      ANSWER {{{~
      Use the following substitution command when your cursor is on the
@@ -932,7 +932,7 @@ Fools to the left of me,
   =========================================================================
   *29* : Find  Strings of 7 alphanumerics not preceded by a letter or space >
 
-     /[a-z ]\@<!\w\{7\}
+     /[a-zA-Z ]\@<!\w\{7\}
 <
      :Vimmers of Penzance: I am the very model of a modern modal editor.
   =========================================================================
