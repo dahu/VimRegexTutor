@@ -1,0 +1,3 @@
+pcre-tutor is <reply>Lea Verou's Demystifying Regular Expressions ( http://www.youtube.com/watch?v=EkluES9Rvak ) is a good introduction to PCRE.
+
+regtutor is <reply>The command :VimRegexTutor provides a Vim style regular expression tutorial in the same manner as vimtutor ::: https://github.com/dahu/VimRegexTutor . Also, http://vimregex.com/ is a reasonable online tutorial. See pcre-tutor
